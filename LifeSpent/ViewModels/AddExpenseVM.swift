@@ -6,12 +6,14 @@
 //  Copyright © 2020 Mihails Kuznecovs. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
-class AddTransactionViewModel: ObservableObject {
+class AddExpenseViewModel: ObservableObject {
     private var userData = UserData.shared
     @Published var priceText: String = ""
     @Published var nameText: String = ""
+    @Published var reasonText: String = ""
+    var currency: String { return userData.userCurrency }
     
     var resultString: String {
         if priceText.isEmpty {
@@ -36,7 +38,9 @@ class AddTransactionViewModel: ObservableObject {
     }
     
     func addExpense() {
-        let expense = UserExpense(name: nameText, priceInCents: priceInCents, currency: userData.userCurrency, minutesSpent: minutesSpent)
-        UserExpenses.shared.expensesList.append(expense)
+        CoreDataManager.saveExpense(name: nameText,
+                                    priceInCents: priceInCents,
+                                    currency: userData.userCurrency,
+                                    minutesSpent: minutesSpent)
     }
 }

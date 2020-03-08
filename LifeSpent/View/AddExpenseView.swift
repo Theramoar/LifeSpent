@@ -10,8 +10,8 @@ import SwiftUI
 
 
 
-struct AddTransactionView: View {
-    @ObservedObject var viewModel = AddTransactionViewModel()
+struct AddExpenseView: View {
+    @ObservedObject var viewModel = AddExpenseViewModel()
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -19,8 +19,13 @@ struct AddTransactionView: View {
             VStack (alignment: .center, spacing: 10) {
                 Form {
                     TextField("Enter item's name", text: $viewModel.nameText)
-                    TextField("Enter item's price", text: $viewModel.priceText)
-                        .keyboardType(.decimalPad)
+                    HStack {
+                        TextField("Enter item's price", text: $viewModel.priceText)
+                            .keyboardType(.decimalPad)
+                        Text(viewModel.currency)
+                    }
+                    TextField("Why should I buy this item?", text: $viewModel.reasonText)
+                    
                     if viewModel.resultString != "" {
                         Button(action: {
                             self.viewModel.addExpense()
@@ -46,6 +51,6 @@ struct AddTransactionView: View {
 
 struct AddTransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTransactionView()
+        AddExpenseView()
     }
 }

@@ -43,10 +43,16 @@ class DataCalculator {
     private static func createString(_ weeks: Int, _ days: Int, _ hours: Int, _ minutes: Int ) -> String {
         var timeString: String = ""
         
-        let weekString: String = weeks == 0 ? "" : "\(weeks) weeks"
-        let daysString: String = days == 0 ? "" : "\(days) days"
-        let hoursString: String = hours == 0 ? "" : "\(hours) hours"
-        let minutesString: String = minutes == 0 ? "" : "\(minutes) minutes"
+        var weekString: String = weeks == 0 ? "" : "\(weeks) weeks"
+        
+        var daysString: String = days == 0 ? "" : "\(days) days"
+        var hoursString: String = hours == 0 ? "" : "\(hours) hours"
+        var minutesString: String = minutes == 0 ? "" : "\(minutes) minutes"
+        
+        checkForPluralForm(weeks, &weekString)
+        checkForPluralForm(days, &daysString)
+        checkForPluralForm(hours, &hoursString)
+        checkForPluralForm(minutes, &minutesString)
         
         timeString = createStringPart(for: timeString, weekString)
         timeString = createStringPart(for: timeString, daysString)
@@ -54,6 +60,12 @@ class DataCalculator {
         timeString = createStringPart(for: timeString, minutesString)
  
         return timeString
+    }
+    
+    private static func checkForPluralForm(_ number: Int, _ string: inout String) {
+        if number == 1 {
+            string.removeLast()
+        }
     }
     
     private static func createStringPart(for timeString: String, _ string: String) -> String {

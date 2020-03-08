@@ -11,10 +11,10 @@ import SwiftUI
 struct ExpenseCellView: View {
     var expense: UserExpense
     var timeString: String {
-        return DataCalculator.createTimeString(expense.minutesSpent)
+        return DataCalculator.createTimeString(expense.minutesSpent as! Int)
     }
     var priceString: String {
-        let doubleValue = Double(expense.priceInCents)
+        let doubleValue = Double(truncating: expense.priceInCents ?? 0)
         return String(format: "%.2f", doubleValue / 100)
     }
     
@@ -22,14 +22,14 @@ struct ExpenseCellView: View {
         HStack {
             HStack {
             VStack (alignment: .leading) {
-                Text(expense.name)
+                Text(expense.name!)
                     .font(.title)
                     .bold()
                 Text("\(timeString) to buy this item")
                     .font(.caption)
             }
             Spacer()
-            Text("\(expense.currency) \(priceString)")
+            Text("\(expense.currency!) \(priceString)")
                 .bold()
             }
         .padding()
@@ -37,8 +37,8 @@ struct ExpenseCellView: View {
     }
 }
 
-struct ExpenseCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpenseCellView(expense: UserExpense(name: "Playstation", priceInCents: 40000, currency: "EUR", minutesSpent: 70000))
-    }
-}
+//struct ExpenseCellView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ExpenseCellView(expense: UserExpense(name: "Playstation", priceInCents: 40000, currency: "EUR", minutesSpent: 70000))
+//    }
+//}

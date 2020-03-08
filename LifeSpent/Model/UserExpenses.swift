@@ -6,19 +6,24 @@
 //  Copyright © 2020 Mihails Kuznecovs. All rights reserved.
 //
 
-import Foundation
+import CoreData
+import UIKit
 
-
-
-class UserExpenses: ObservableObject {
-    static var shared = UserExpenses()
-    @Published var expensesList = [UserExpense]()
+class UserExpense: NSManagedObject, Identifiable {
+    @NSManaged var id: UUID?
+    @NSManaged var name: String?
+    @NSManaged var priceInCents: NSNumber?
+    @NSManaged var currency: String?
+    @NSManaged var minutesSpent: NSNumber?
 }
 
-struct UserExpense: Identifiable {
-    var id = UUID()
-    var name: String
-    var priceInCents: Int
-    var currency: String
-    var minutesSpent: Int
+extension UserExpense {
+    static func getAllExpensesFetchRequest() -> NSFetchRequest<UserExpense> {
+        let request: NSFetchRequest<UserExpense> = UserExpense.fetchRequest() as! NSFetchRequest<UserExpense>
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        
+        return request
+    }
 }
+ 
